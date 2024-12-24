@@ -1,5 +1,6 @@
 import { User } from "../models/userSchema.js";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 export async function registerController(req, res) {
   try {
@@ -62,14 +63,40 @@ export async function loginController(req, res) {
 
     // Authentication and authorization using JWT Token
 
-    return res.status(200).json({
-      success: true,
-      message: "user logged in successfully",
+    const token = jwt.sign({ userId: user._id }, process.env.SECRET_KEY, {
+      expiresIn: "1d",
     });
+
+    return res
+      .status(200)
+      .cookie("token", token, {
+        httpOnly: true,
+        sameSite: "strict",
+        maxAge: 24 * 60 * 60 * 1000,
+      })
+      .json({
+        success: true,
+        message: "user logged in successfully",
+        token,
+      });
   } catch (error) {
     return res.status(400).json({
       success: false,
       message: error,
+    });
+  }
+}
+
+export async function logoutController(req, res) {
+  try {
+    return res.status(200).cookie("token", "").json({
+      success: true,
+      message: "logout successfully",
+    });
+  } catch (error) {
+    return res.status(400).json({
+      success: false,
+      message: "logout failed",
     });
   }
 }
