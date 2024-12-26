@@ -9,7 +9,7 @@ export async function registerController(req, res) {
     const user = await User.findOne({ email });
 
     if (user) {
-      return res.status(400).json({
+      return res.status(200).json({
         success: false,
         message: "user already exists",
       });
