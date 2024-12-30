@@ -6,7 +6,7 @@ export async function createTodoController(req, res) {
 
     if (!title || !description) {
       return res
-        .status(400)
+        .status(200)
         .json({ message: "Please provide a title and description" });
     }
 
@@ -34,7 +34,7 @@ export async function updateTodoController(req, res) {
 
     if (!title || !description) {
       return res
-        .status(400)
+        .status(200)
         .json({ message: "Please provide a title and description" });
     }
 
@@ -45,7 +45,7 @@ export async function updateTodoController(req, res) {
     );
 
     if (!updatedTodo) {
-      return res.status(400).json({
+      return res.status(200).json({
         success: false,
         message: "failed in updating todo",
       });
@@ -70,7 +70,7 @@ export async function deleteTodoController(req, res) {
     const deletedTodoItem = await Todo.findByIdAndDelete(todoId);
 
     if (!deletedTodoItem) {
-      return res.status(400).json({
+      return res.status(200).json({
         success: false,
         message: "failed in deleting todo item",
       });
@@ -78,7 +78,7 @@ export async function deleteTodoController(req, res) {
 
     return res.status(200).json({
       success: true,
-      message: "todo deleted ssuccessfully",
+      message: "todo deleted successfully",
     });
   } catch (error) {
     return res.status(400).json({
@@ -87,12 +87,33 @@ export async function deleteTodoController(req, res) {
     });
   }
 }
+export async function getOneTodoController(req, res) {
+  try {
+    const todoId = req.params.id;
+    const Todo = await Todo.find({ _id: todoId });
+
+    if (!Todo) {
+      return res.status(200).json({
+        success: false,
+        message: "Todo Not found",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Todo Find successfully",
+      Todo,
+    });
+  } catch (error) {
+    return res.status(400).json({ success: false, message: error });
+  }
+}
 export async function getAllTodoController(req, res) {
   try {
     const allTodos = await Todo.find();
 
     if (!allTodos) {
-      return res.status(400).json({
+      return res.status(200).json({
         success: false,
         message: "No todos found",
       });

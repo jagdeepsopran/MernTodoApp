@@ -42,11 +42,21 @@ export async function registerController(req, res) {
 export async function loginController(req, res) {
   try {
     const { username, email, password } = req.body;
+    
+    const Name = await User.findOne({username: username});
+    console.log(Name);
+    
+    if (!Name) {
+      return res.status(200).json({
+        success: false,
+        message: "Invalid username",
+      });
+    }
 
     const user = await User.findOne({ email });
 
     if (!user) {
-      return res.status(400).json({
+      return res.status(200).json({
         success: false,
         message: "user not exists , please register",
       });
@@ -55,7 +65,7 @@ export async function loginController(req, res) {
     const checkPassword = await bcrypt.compare(password, user.password);
 
     if (!checkPassword) {
-      return res.status(400).json({
+      return res.status(200).json({
         success: false,
         message: "invalid credentials!!",
       });
@@ -100,3 +110,24 @@ export async function logoutController(req, res) {
     });
   }
 }
+// export async function logoutController(req, res) {
+//   try {
+//     return res
+//       .status(200)
+//       .cookie("token", "", {
+//         httpOnly: true,  // Match the original cookie's properties
+//         sameSite: "strict", // Match the original cookie's properties
+//         secure: process.env.NODE_ENV === "production", // Use secure in production
+//         expires: new Date(0), // Expire the cookie immediately
+//       })
+//       .json({
+//         success: true,
+//         message: "Logout successful",
+//       });
+//   } catch (error) {
+//     return res.status(400).json({
+//       success: false,
+//       message: "Logout failed",
+//     });
+//   }
+// }

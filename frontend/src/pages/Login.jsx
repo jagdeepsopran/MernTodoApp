@@ -4,7 +4,8 @@ import { Label } from "../components/ui/label";
 import { Button } from "../components/ui/button";
 import axios from "axios";
 import toast, { useToaster } from "react-hot-toast";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { IoArrowBackCircleOutline } from "react-icons/io5";
 
 const LoginForm = () => {
   // State to handle form inputs
@@ -13,8 +14,8 @@ const LoginForm = () => {
     email: "",
     password: "",
   });
-
-  //   const toast = useToaster();
+  const navigate = useNavigate();
+  // const toast = useToaster();
 
   // Handle input changes
   const handleChange = (e) => {
@@ -42,6 +43,9 @@ const LoginForm = () => {
 
       if (res.data.success) {
         toast.success(res.data.message);
+        setTimeout(() => {
+          navigate("/dashboard");
+        }, 1500);
       } else {
         toast.error(res.data.message);
       }
@@ -51,13 +55,13 @@ const LoginForm = () => {
   };
 
   return (
-    <div className=" h-screen w-screen flex justify-center items-center">
-      <div className="max-w-md mx-auto mt-10 p-6 bg-white shadow rounded-md">
-        <h2 className="text-2xl font-bold text-center mb-4">Login</h2>
+    <div className="h-screen flex flex-col justify-center items-center bg-gradient-to-b from-gray-600 to-black ">
+      <div className="max-w-md w-full mx-auto mt-10 p-6 bg-white rounded-3xl shadow-xl shadow-gray-400">
+        <h2 className="text-2xl font-bold text-center mb-4 ">Login</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Username */}
           <div className="flex flex-col">
-            <Label htmlFor="username">Username</Label>
+            <Label htmlFor="username" className="mb-2">Username</Label>
             <Input
               type="text"
               id="username"
@@ -70,7 +74,7 @@ const LoginForm = () => {
 
           {/* Email */}
           <div className="flex flex-col">
-            <Label htmlFor="email">Email</Label>
+            <Label htmlFor="email" className="mb-2">Email</Label>
             <Input
               type="email"
               id="email"
@@ -83,7 +87,7 @@ const LoginForm = () => {
 
           {/* Password */}
           <div className="flex flex-col">
-            <Label htmlFor="password">Password</Label>
+            <Label htmlFor="password" className="mb-2">Password</Label>
             <Input
               type="password"
               id="password"
@@ -101,12 +105,13 @@ const LoginForm = () => {
         </form>
 
         <p className="text-blue-800 text-center mt-2">
-          new user ?{" "}
+          New User ?{" "}
           <Link to="/register" className="text-blue-800 underline">
             register
           </Link>
         </p>
       </div>
+      <IoArrowBackCircleOutline className="text-white text-4xl absolute left-4 top-4 cursor-pointer" onClick={()=>navigate("/")} />
     </div>
   );
 };

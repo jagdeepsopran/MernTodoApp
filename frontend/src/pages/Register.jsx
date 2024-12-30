@@ -54,12 +54,12 @@ const RegisterForm = () => {
 
   return (
     <div className=" h-screen w-screen flex justify-center items-center">
-      <div className="max-w-md mx-auto mt-10 p-6 bg-white shadow rounded-md">
+      <div className="max-w-md w-full mx-auto mt-10 p-6 bg-white shadow-xl shadow-gray-400 rounded-md">
         <h2 className="text-2xl font-bold text-center mb-4">Register</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Full Name */}
           <div className="flex flex-col">
-            <Label htmlFor="fullname">Full Name</Label>
+            <Label htmlFor="fullname" className="mb-2">Full Name</Label>
             <Input
               type="text"
               id="fullname"
@@ -72,7 +72,7 @@ const RegisterForm = () => {
 
           {/* Username */}
           <div className="flex flex-col">
-            <Label htmlFor="username">Username</Label>
+            <Label htmlFor="username" className="mb-2">Username</Label>
             <Input
               type="text"
               id="username"
@@ -85,7 +85,7 @@ const RegisterForm = () => {
 
           {/* Email */}
           <div className="flex flex-col">
-            <Label htmlFor="email">Email</Label>
+            <Label htmlFor="email" className="mb-2">Email</Label>
             <Input
               type="email"
               id="email"
@@ -98,7 +98,7 @@ const RegisterForm = () => {
 
           {/* Password */}
           <div className="flex flex-col">
-            <Label htmlFor="password">Password</Label>
+            <Label htmlFor="password" className="mb-2">Password</Label>
             <Input
               type="password"
               id="password"

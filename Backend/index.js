@@ -5,6 +5,7 @@ import userRoutes from "./routes/userRoutes.js";
 import todoRoutes from "./routes/todoRoutes.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import { auth } from "./middleware/authMiddleware.js";
 
 const app = express();
 dotenv.config();
@@ -20,7 +21,6 @@ const corsOption = {
 app.use(cors(corsOption));
 
 app.use(cookieParser());
-
 app.use("/api/users", userRoutes);
 app.use("/api/todo", todoRoutes);
 
